@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "experts")
@@ -98,6 +100,14 @@ public class Expert {
 
     @ApiModelProperty("Estado del experto")
     private String state;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name="expert_tag",
+            joinColumns = {@JoinColumn(name="expert_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name="tag_id", referencedColumnName = "id")}
+    )
+    private List<Tag> tags = new ArrayList<>();
 
     public Expert() {
     }
@@ -333,6 +343,14 @@ public class Expert {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override

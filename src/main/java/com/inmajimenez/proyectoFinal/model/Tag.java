@@ -1,9 +1,12 @@
 package com.inmajimenez.proyectoFinal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tags")
@@ -22,6 +25,10 @@ public class Tag {
 
     @ApiModelProperty("Fecha de modificación de la etiqueta")
     private LocalDate updated_at;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tags",fetch = FetchType.LAZY)
+    private List<Expert> experts = new ArrayList<>();
 
     public Tag() {
     }
@@ -63,6 +70,14 @@ public class Tag {
 
     public void setUpdated_at(LocalDate updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public List<Expert> getExperts() {
+        return experts;
+    }
+
+    public void setExperts(List<Expert> experts) {
+        this.experts = experts;
     }
 
     @Override
