@@ -69,7 +69,7 @@ public class TagController {
         Tag result = tagService.createTag(tag);
 
         return  result == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
-                ResponseEntity.created(new URI("/api/tags/" + result.getId())).body(result);
+                ResponseEntity.created(new URI("/api/etiquetas/" + result.getId())).body(result);
     }
 
     /**
@@ -95,7 +95,7 @@ public class TagController {
      */
     @DeleteMapping("/etiquetas/{id}")
     @ApiOperation("Borra de base de datos una etiqueta según su id")
-    public ResponseEntity<Void> deleteComputer(@ApiParam("Id de la etiqueta")
+    public ResponseEntity<Void> deleteTag(@ApiParam("Id de la etiqueta")
                                                @PathVariable Long id) {
 
         return !tagService.deleteTagById(id) ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
