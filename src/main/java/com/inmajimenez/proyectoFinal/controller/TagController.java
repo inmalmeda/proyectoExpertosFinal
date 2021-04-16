@@ -1,6 +1,7 @@
 package com.inmajimenez.proyectoFinal.controller;
 
 import com.inmajimenez.proyectoFinal.model.Tag;
+import com.inmajimenez.proyectoFinal.model.TagFilters;
 import com.inmajimenez.proyectoFinal.service.TagService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -8,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.QueryParam;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+
 
 
 /**
@@ -32,9 +35,10 @@ public class TagController {
      */
     @GetMapping("/etiquetas")
     @ApiOperation("Encuentra todas las etiquetas con filtro y paginación")
-    public ResponseEntity<List<Tag>> findAll(){
+    public ResponseEntity<List<Tag>> findAll(@QueryParam("name") String name, @QueryParam("page") String page,
+                                             @QueryParam("limit") String limit){
 
-        List<Tag> result = tagService.findAllTags();
+        List<Tag> result = tagService.findAllTags(new TagFilters(name, page, limit));
 
         return result.isEmpty() ?
                 new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok().body(result);

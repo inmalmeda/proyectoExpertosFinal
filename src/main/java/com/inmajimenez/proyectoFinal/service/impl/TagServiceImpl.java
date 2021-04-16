@@ -2,6 +2,7 @@ package com.inmajimenez.proyectoFinal.service.impl;
 
 import com.inmajimenez.proyectoFinal.dao.TagDAO;
 import com.inmajimenez.proyectoFinal.model.Tag;
+import com.inmajimenez.proyectoFinal.model.TagFilters;
 import com.inmajimenez.proyectoFinal.repository.TagRepository;
 import com.inmajimenez.proyectoFinal.service.TagService;
 import org.slf4j.Logger;
@@ -28,9 +29,9 @@ public class TagServiceImpl implements TagService {
      * @return List of tags
      */
     @Override
-    public List<Tag> findAllTags() {
+    public List<Tag> findAllTags(TagFilters filters) {
         log.debug("Find all tags");
-        return this.tagDAO.findAllTags();
+        return this.tagDAO.findAllTags(filters);
     }
 
     /**
