@@ -1,7 +1,8 @@
 package com.inmajimenez.proyectoFinal.service.impl;
 
 import com.inmajimenez.proyectoFinal.dao.ExpertDAO;
-import com.inmajimenez.proyectoFinal.model.Expert;
+import com.inmajimenez.proyectoFinal.model.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.entities.Expert;
 import com.inmajimenez.proyectoFinal.repository.ExpertRepository;
 import com.inmajimenez.proyectoFinal.service.ExpertService;
 import org.slf4j.Logger;
@@ -25,12 +26,13 @@ public class ExpertServiceImpl implements ExpertService {
 
     /**
      * It returns a list of experts
+     * @param filters Filters to look for experts
      * @return List of experts
      */
     @Override
-    public List<Expert> findAllExperts() {
+    public List<Expert> findAllExperts(ExpertFilters filters) {
         log.debug("Find all experts");
-        return this.expertDAO.findAllExperts();
+        return this.expertDAO.findAllExperts(filters);
     }
 
     /**

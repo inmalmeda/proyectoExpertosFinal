@@ -1,7 +1,7 @@
 package com.inmajimenez.proyectoFinal.service.impl;
 
 import com.inmajimenez.proyectoFinal.dao.TagDAO;
-import com.inmajimenez.proyectoFinal.model.Tag;
+import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 import com.inmajimenez.proyectoFinal.repository.TagRepository;
 import com.inmajimenez.proyectoFinal.service.TagService;
@@ -26,6 +26,7 @@ public class TagServiceImpl implements TagService {
 
     /**
      * It returns a list of tags
+     * @param filters Filters to look for tags
      * @return List of tags
      */
     @Override

@@ -1,7 +1,7 @@
 package com.inmajimenez.proyectoFinal.dao;
 
-import com.inmajimenez.proyectoFinal.model.Expert;
-import com.inmajimenez.proyectoFinal.model.Tag;
+import com.inmajimenez.proyectoFinal.model.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.entities.Expert;
 
 import java.util.List;
 
@@ -12,9 +12,10 @@ public interface ExpertDAO {
 
     /**
      * It returns a list of experts
+     * @param filters Filters to look for experts
      * @return List of experts
      */
-    List<Expert> findAllExperts();
+    List<Expert> findAllExperts(ExpertFilters filters);
 
     /**
      * It returns an expert depending of id

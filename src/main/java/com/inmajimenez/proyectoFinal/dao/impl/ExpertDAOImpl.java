@@ -1,15 +1,17 @@
 package com.inmajimenez.proyectoFinal.dao.impl;
 
 import com.inmajimenez.proyectoFinal.dao.ExpertDAO;
-import com.inmajimenez.proyectoFinal.model.Expert;
-import com.inmajimenez.proyectoFinal.model.Tag;
+import com.inmajimenez.proyectoFinal.model.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.entities.Expert;
+import io.swagger.models.Tag;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -20,21 +22,43 @@ public class ExpertDAOImpl implements ExpertDAO {
 
     /**
      * It returns a list of experts
+     * @param filters Filters to look for experts
      * @return List of experts
      */
     @Override
-    public List<Expert> findAllExperts() {
+    public List<Expert> findAllExperts(ExpertFilters filters) {
+
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Expert> criteria =  builder.createQuery(Expert.class);
         Root<Expert> root = criteria.from(Expert.class);
+        Join<Expert, Tag> rootTags = root.join("tags");
 
-        //TODO FALTAN LOS FILTROS Y PAGINACION!!!!!
+        List<Predicate> predicates = new ArrayList<>();
 
-        try{
-            return manager.createQuery(criteria).getResultList();
-        }catch(Exception e){
-            return null;
+        if(filters.getName()!=null)
+            predicates.add(builder.like(root.get("name"), filters.getName() + "%"));
+
+        if(filters.getMode()!=null)
+            predicates.add(builder.equal(root.get("modality"), filters.getMode()));
+
+        if(filters.getState()!=null)
+            predicates.add(builder.equal(root.get("state"), filters.getState()));
+
+        if(filters.getScore()!=null)
+            predicates.add(builder.equal(root.get("score"), filters.getScore()));
+
+        if(filters.getTag()!=null)
+            predicates.add(builder.equal(rootTags.get("id"), filters.getTag()));
+
+        criteria.distinct(true).select(root).where(builder.and(predicates.toArray(new Predicate[0])));
+
+        TypedQuery<Expert> expertsQuery = manager.createQuery(criteria);
+
+        if(filters.getLimit()!=null && filters.getPage()!=null){
+            expertsQuery.setFirstResult(Integer.parseInt(filters.getPage())); //Respresenta la posicion de comienzo, para indicar desde donde empezar
+            expertsQuery.setMaxResults(Integer.parseInt(filters.getLimit()));//Representa size, el tamaño total, normalmente es 20
         }
+        return expertsQuery.getResultList();
     }
 
     /**

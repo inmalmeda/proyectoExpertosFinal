@@ -1,6 +1,6 @@
 package com.inmajimenez.proyectoFinal.controller;
 
-import com.inmajimenez.proyectoFinal.model.Tag;
+import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 import com.inmajimenez.proyectoFinal.service.TagService;
 import io.swagger.annotations.ApiOperation;

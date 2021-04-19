@@ -1,6 +1,6 @@
 package com.inmajimenez.proyectoFinal.dao;
 
-import com.inmajimenez.proyectoFinal.model.Tag;
+import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 
 import java.util.List;

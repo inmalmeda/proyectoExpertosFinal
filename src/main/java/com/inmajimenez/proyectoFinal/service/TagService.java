@@ -1,6 +1,6 @@
 package com.inmajimenez.proyectoFinal.service;
 
-import com.inmajimenez.proyectoFinal.model.Tag;
+import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 
 import java.util.List;
@@ -12,6 +12,7 @@ public interface TagService {
 
     /**
      * It returns a list of tags
+     * @param filters Filters to look for tags
      * @return List of tags
      */
     List<Tag> findAllTags(TagFilters filters);
