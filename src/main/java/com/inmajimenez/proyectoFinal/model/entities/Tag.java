@@ -21,6 +21,9 @@ public class Tag {
     @ApiModelProperty("Nombre de la etiqueta")
     private String name;
 
+    @ApiModelProperty("Nombre del creador de la etiqueta")
+    private String creator;
+
     @ApiModelProperty("Fecha de creación de la etiqueta")
     private LocalDate created_at;
 
@@ -34,11 +37,13 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(Long id, String name, LocalDate created_at, LocalDate updated_at) {
+    public Tag(Long id, String name, String creator, LocalDate created_at, LocalDate updated_at, List<Expert> experts) {
         this.id = id;
         this.name = name;
+        this.creator = creator;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.experts = experts;
     }
 
     public Long getId() {
@@ -81,11 +86,20 @@ public class Tag {
         this.experts = experts;
     }
 
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
     @Override
     public String toString() {
         return "Tag{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", creator='" + creator + '\'' +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';

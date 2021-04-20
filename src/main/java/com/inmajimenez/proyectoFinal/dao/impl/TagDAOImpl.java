@@ -81,15 +81,4 @@ public class TagDAOImpl implements TagDAO {
         }
         return tag;
     }
-
-    private Long getCount(String name){
-        String sql = "select count(*) from tags";
-
-        if(!name.isEmpty())
-            sql = sql + "where name like " + name;
-        Query query = manager.createNativeQuery(sql);
-        return (Long) query.getSingleResult();
-    }
-
-
 }
