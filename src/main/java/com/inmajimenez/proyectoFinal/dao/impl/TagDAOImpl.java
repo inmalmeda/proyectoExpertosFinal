@@ -1,16 +1,20 @@
 package com.inmajimenez.proyectoFinal.dao.impl;
 
 import com.inmajimenez.proyectoFinal.dao.TagDAO;
+import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
 import java.util.List;
 
 @Repository
@@ -22,25 +26,39 @@ public class TagDAOImpl implements TagDAO {
     /**
      * It returns a list of tags
      * @param filters Filters to look for tags
-     * @return List of tags
+     * @return Response with list of tags
      */
     @Override
-    public List<Tag> findAllTags(TagFilters filters) {
+    public TagResponseGetAll findAllTags(TagFilters filters) {
+
+        TagResponseGetAll responseGet = new TagResponseGetAll();
+
         CriteriaBuilder builder = manager.getCriteriaBuilder();
+        //Criteria List
         CriteriaQuery<Tag> criteria =  builder.createQuery(Tag.class);
         Root<Tag> root = criteria.from(Tag.class);
+        //Criteria Count
+        CriteriaQuery<Long> criteriaCount = builder.createQuery(Long.class);
+        Root<Tag> rootCount = criteriaCount.from(Tag.class);
+        criteriaCount.select((builder.countDistinct(rootCount)));
 
-        if(filters.getName()!=null)
+        if(filters.getName()!=null){
             criteria.select(root).where(builder.like(root.get("name"), filters.getName() + "%"));
+            criteriaCount.where(builder.like(rootCount.get("name"), filters.getName() + "%"));
+        }
+
+        responseGet.setTotalCount(manager.createQuery(criteriaCount).getSingleResult());
 
         TypedQuery<Tag> tagsQuery = manager.createQuery(criteria);
 
         if(filters.getLimit()!=null && filters.getPage()!=null){
-            tagsQuery.setFirstResult(Integer.parseInt(filters.getPage())); //Respresenta la posicion de comienzo, para indicar desde donde empezar
-            tagsQuery.setMaxResults(Integer.parseInt(filters.getLimit()));//Representa size, el tamaño total, normalmente es 20
+            tagsQuery.setFirstResult(Integer.parseInt(filters.getPage()));
+            tagsQuery.setMaxResults(Integer.parseInt(filters.getLimit()));
         }
 
-        return tagsQuery.getResultList();
+        responseGet.setTags(tagsQuery.getResultList());
+
+        return responseGet;
     }
 
     /**
@@ -63,4 +81,15 @@ public class TagDAOImpl implements TagDAO {
         }
         return tag;
     }
+
+    private Long getCount(String name){
+        String sql = "select count(*) from tags";
+
+        if(!name.isEmpty())
+            sql = sql + "where name like " + name;
+        Query query = manager.createNativeQuery(sql);
+        return (Long) query.getSingleResult();
+    }
+
+
 }

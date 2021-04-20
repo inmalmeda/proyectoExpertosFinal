@@ -1,5 +1,6 @@
 package com.inmajimenez.proyectoFinal.dao;
 
+import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 
@@ -12,9 +13,9 @@ public interface TagDAO {
 
     /**
      * It returns a list of tags
-     * @return List of tags
+     * @return Response with of tags
      */
-    List<Tag> findAllTags(TagFilters tagFilters);
+    TagResponseGetAll findAllTags(TagFilters tagFilters);
 
     /**
      * It returns a tag depending of id

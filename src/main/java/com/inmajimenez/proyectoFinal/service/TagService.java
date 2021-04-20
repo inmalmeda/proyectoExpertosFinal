@@ -1,5 +1,6 @@
 package com.inmajimenez.proyectoFinal.service;
 
+import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 
@@ -13,9 +14,9 @@ public interface TagService {
     /**
      * It returns a list of tags
      * @param filters Filters to look for tags
-     * @return List of tags
+     * @return Response with list of tags
      */
-    List<Tag> findAllTags(TagFilters filters);
+    TagResponseGetAll findAllTags(TagFilters filters);
 
     /**
      * It returns a tag depending of id

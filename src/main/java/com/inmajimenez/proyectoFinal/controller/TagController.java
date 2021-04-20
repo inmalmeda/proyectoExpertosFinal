@@ -1,5 +1,7 @@
 package com.inmajimenez.proyectoFinal.controller;
 
+import com.inmajimenez.proyectoFinal.model.TagResponse;
+import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 import com.inmajimenez.proyectoFinal.service.TagService;
@@ -31,17 +33,24 @@ public class TagController {
 
     /**
      * It returns all tags
-     * @return List of tags
+     * @return Response with list of tags
      */
     @GetMapping("/etiquetas")
     @ApiOperation("Encuentra todas las etiquetas con filtro y paginación")
-    public ResponseEntity<List<Tag>> findAll(@QueryParam("name") String name, @QueryParam("page") String page,
+    public TagResponseGetAll findAll(@QueryParam("name") String name, @QueryParam("page") String page,
                                              @QueryParam("limit") String limit){
 
-        List<Tag> result = tagService.findAllTags(new TagFilters(name, page, limit));
 
-        return result.isEmpty() ?
-                new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok().body(result);
+        TagResponseGetAll response = tagService.findAllTags(new TagFilters(name, page, limit));
+
+        if(!response.getTags().isEmpty()){
+            response.setResponse(new TagResponse("Etiquetas encontradas",
+                                        new ResponseEntity(HttpStatus.OK).getStatusCode()));
+        }else{
+            response.setResponse(new TagResponse("No hubo resultados en la búsqueda",
+                                        new ResponseEntity(HttpStatus.NOT_FOUND).getStatusCode()));
+        }
+        return response;
     }
 
     /**

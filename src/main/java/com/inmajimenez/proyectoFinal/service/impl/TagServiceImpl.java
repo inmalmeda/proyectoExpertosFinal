@@ -1,6 +1,7 @@
 package com.inmajimenez.proyectoFinal.service.impl;
 
 import com.inmajimenez.proyectoFinal.dao.TagDAO;
+import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 import com.inmajimenez.proyectoFinal.repository.TagRepository;
@@ -27,10 +28,10 @@ public class TagServiceImpl implements TagService {
     /**
      * It returns a list of tags
      * @param filters Filters to look for tags
-     * @return List of tags
+     * @return Response with list of tags
      */
     @Override
-    public List<Tag> findAllTags(TagFilters filters) {
+    public TagResponseGetAll findAllTags(TagFilters filters) {
         log.debug("Find all tags");
         return this.tagDAO.findAllTags(filters);
     }
@@ -103,7 +104,6 @@ public class TagServiceImpl implements TagService {
         log.debug("Delete a tag by id: {}", id);
 
         if (tagRepository.existsById(id)) {
-
             try{
                 tagRepository.deleteById(id);
             }catch(Exception e){
