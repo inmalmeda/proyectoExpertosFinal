@@ -1,18 +1,17 @@
 package com.inmajimenez.proyectoFinal.model;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-public class TagResponse {
+public class Response {
 
     private String message;
 
     private HttpStatus response;
 
-    public TagResponse() {
+    public Response() {
     }
 
-    public TagResponse(String message, HttpStatus response) {
+    public Response(String message, HttpStatus response) {
         this.message = message;
         this.response = response;
     }

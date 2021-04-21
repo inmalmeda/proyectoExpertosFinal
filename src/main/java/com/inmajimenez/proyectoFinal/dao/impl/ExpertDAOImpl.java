@@ -2,6 +2,7 @@ package com.inmajimenez.proyectoFinal.dao.impl;
 
 import com.inmajimenez.proyectoFinal.dao.ExpertDAO;
 import com.inmajimenez.proyectoFinal.model.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.ExpertResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Expert;
 import io.swagger.models.Tag;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -23,15 +23,21 @@ public class ExpertDAOImpl implements ExpertDAO {
     /**
      * It returns a list of experts
      * @param filters Filters to look for experts
-     * @return List of experts
+     * @return Response with list of experts
      */
     @Override
-    public List<Expert> findAllExperts(ExpertFilters filters) {
+    public ExpertResponseGetAll findAllExperts(ExpertFilters filters) {
+
+        ExpertResponseGetAll responseGet = new ExpertResponseGetAll();
 
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Expert> criteria =  builder.createQuery(Expert.class);
         Root<Expert> root = criteria.from(Expert.class);
-        Join<Expert, Tag> rootTags = root.join("tags");
+
+        //Criteria Count
+        CriteriaQuery<Long> criteriaCount = builder.createQuery(Long.class);
+        Root<Expert> rootCount = criteriaCount.from(Expert.class);
+        criteriaCount.select((builder.countDistinct(rootCount)));
 
         List<Predicate> predicates = new ArrayList<>();
 
@@ -47,8 +53,12 @@ public class ExpertDAOImpl implements ExpertDAO {
         if(filters.getScore()!=null)
             predicates.add(builder.equal(root.get("score"), filters.getScore()));
 
-        if(filters.getTag()!=null)
+        if(filters.getTag()!=null){
+            Join<Expert, Tag> rootTags = root.join("tags");
             predicates.add(builder.equal(rootTags.get("id"), filters.getTag()));
+        }
+
+        responseGet.setTotalCount(manager.createQuery(criteriaCount).getSingleResult());
 
         criteria.distinct(true).select(root).where(builder.and(predicates.toArray(new Predicate[0])));
 
@@ -58,7 +68,10 @@ public class ExpertDAOImpl implements ExpertDAO {
             expertsQuery.setFirstResult(Integer.parseInt(filters.getPage())); //Respresenta la posicion de comienzo, para indicar desde donde empezar
             expertsQuery.setMaxResults(Integer.parseInt(filters.getLimit()));//Representa size, el tamaño total, normalmente es 20
         }
-        return expertsQuery.getResultList();
+
+        responseGet.setExperts(expertsQuery.getResultList());
+
+        return responseGet;
     }
 
     /**

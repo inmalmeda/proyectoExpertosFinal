@@ -1,6 +1,8 @@
 package com.inmajimenez.proyectoFinal.controller;
 
 import com.inmajimenez.proyectoFinal.model.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.ExpertResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.Response;
 import com.inmajimenez.proyectoFinal.model.entities.Expert;
 import com.inmajimenez.proyectoFinal.service.ExpertService;
 import io.swagger.annotations.ApiOperation;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.ws.rs.QueryParam;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 
 /**
  * Rest controller of experts
@@ -29,20 +30,27 @@ public class ExpertController {
 
     /**
      * It returns all experts
-     * @return List of experts
+     * @return Response with list of experts
      */
     @GetMapping("/expertos")
     @ApiOperation("Encuentra todos los expertos con filtro y paginación")
-    public ResponseEntity<List<Expert>> findAll(@QueryParam("name") String name, @QueryParam("mode") String mode,
+    public ExpertResponseGetAll findAll(@QueryParam("name") String name, @QueryParam("mode") String mode,
                                                 @QueryParam("state") String state,
                                                 @QueryParam("score") Integer score,
                                                 @QueryParam("tag") String tag,
                                                 @QueryParam("page") String page, @QueryParam("limit") String limit){
 
-        List<Expert> result = expertService.findAllExperts(new ExpertFilters(name, mode, state,score, tag, page, limit));
+        ExpertResponseGetAll response = expertService.findAllExperts(new ExpertFilters(name, mode, state,score, tag, page, limit));
 
-        return result.isEmpty() ?
-                new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok().body(result);
+        if(!response.getExperts().isEmpty()){
+            response.setResponse(new Response("Expertos encontrados",
+                    new ResponseEntity(HttpStatus.OK).getStatusCode()));
+        }else{
+            response.setResponse(new Response("No hubo resultados en la búsqueda",
+                    new ResponseEntity(HttpStatus.NOT_FOUND).getStatusCode()));
+        }
+
+        return response;
     }
 
     /**

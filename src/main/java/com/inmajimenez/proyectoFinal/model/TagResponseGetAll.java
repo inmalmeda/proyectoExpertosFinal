@@ -10,13 +10,13 @@ public class TagResponseGetAll {
 
     private List<Tag> tags;
 
-    private TagResponse response;
+    private Response response;
 
     public TagResponseGetAll() {
 
     }
 
-    public TagResponseGetAll(Long totalCount, List<Tag> tags, TagResponse response) {
+    public TagResponseGetAll(Long totalCount, List<Tag> tags, Response response) {
         this.totalCount = totalCount;
         this.tags = tags;
         this.response = response;
@@ -39,11 +39,11 @@ public class TagResponseGetAll {
         this.tags = tags;
     }
 
-    public TagResponse getResponse() {
+    public Response getResponse() {
         return response;
     }
 
-    public void setResponse(TagResponse response) {
+    public void setResponse(Response response) {
         this.response = response;
     }
 }
