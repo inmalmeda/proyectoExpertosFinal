@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -80,5 +81,26 @@ public class TagDAOImpl implements TagDAO {
             tag = null;
         }
         return tag;
+    }
+
+    /**
+     * It deletes the relation with expert in tags in table expert_tag
+     * @param id of tag
+     * @return true or false
+     */
+    @Transactional
+    @Override
+    public Boolean deleteRelationWithExperts(Long id) {
+
+        Query queryNative = manager.createNativeQuery("delete from expert_tag where tag_id = "+ id);
+        if(id!=null) {
+            try {
+                queryNative.executeUpdate();
+            }catch (Exception e){
+               return false;
+            }
+            return true;
+        }
+        return false;
     }
 }

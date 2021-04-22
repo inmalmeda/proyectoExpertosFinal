@@ -34,31 +34,10 @@ public class ExpertDAOImpl implements ExpertDAO {
         CriteriaQuery<Expert> criteria =  builder.createQuery(Expert.class);
         Root<Expert> root = criteria.from(Expert.class);
 
-        //Criteria Count
-        CriteriaQuery<Long> criteriaCount = builder.createQuery(Long.class);
-        Root<Expert> rootCount = criteriaCount.from(Expert.class);
-        criteriaCount.select((builder.countDistinct(rootCount)));
+        List<Predicate> predicates = makeConditionsQuery(builder,root,filters);
 
-        List<Predicate> predicates = new ArrayList<>();
-
-        if(filters.getName()!=null)
-            predicates.add(builder.like(root.get("name"), filters.getName() + "%"));
-
-        if(filters.getMode()!=null)
-            predicates.add(builder.equal(root.get("modality"), filters.getMode()));
-
-        if(filters.getState()!=null)
-            predicates.add(builder.equal(root.get("state"), filters.getState()));
-
-        if(filters.getScore()!=null)
-            predicates.add(builder.equal(root.get("score"), filters.getScore()));
-
-        if(filters.getTag()!=null){
-            Join<Expert, Tag> rootTags = root.join("tags");
-            predicates.add(builder.equal(rootTags.get("id"), filters.getTag()));
-        }
-
-        responseGet.setTotalCount(manager.createQuery(criteriaCount).getSingleResult());
+        //Count
+        responseGet.setTotalCount(getCountAllWithFilters(filters));
 
         criteria.distinct(true).select(root).where(builder.and(predicates.toArray(new Predicate[0])));
 
@@ -94,5 +73,46 @@ public class ExpertDAOImpl implements ExpertDAO {
             expert = null;
         }
         return expert;
+    }
+
+
+    /**
+     * Function to get count of expert depending of filters
+     * @param filters Filters to search experts
+     * @return Count experts
+     */
+    private Long getCountAllWithFilters(ExpertFilters filters){
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        //Criteria Count
+        CriteriaQuery<Long> criteriaCount = builder.createQuery(Long.class);
+        Root<Expert> rootCount = criteriaCount.from(Expert.class);
+        criteriaCount.select((builder.countDistinct(rootCount)));
+
+        List<Predicate> predicates = makeConditionsQuery(builder,rootCount,filters);
+        criteriaCount.where(builder.and(predicates.toArray(new Predicate[0])));
+
+        return manager.createQuery(criteriaCount).getSingleResult();
+    }
+
+    private List<Predicate> makeConditionsQuery(CriteriaBuilder builder, Root<Expert> root, ExpertFilters filters){
+        List<Predicate> predicates = new ArrayList<>();
+
+        if(filters.getName()!=null)
+            predicates.add(builder.like(root.get("name"), filters.getName() + "%"));
+
+        if(filters.getMode()!=null)
+            predicates.add(builder.equal(root.get("modality"), filters.getMode()));
+
+        if(filters.getState()!=null)
+            predicates.add(builder.equal(root.get("state"), filters.getState()));
+
+        if(filters.getScore()!=null)
+            predicates.add(builder.equal(root.get("score"), filters.getScore()));
+
+        if(filters.getTag()!=null){
+            Join<Expert, Tag> rootTags = root.join("tags");
+            predicates.add(builder.equal(rootTags.get("id"), filters.getTag()));
+        }
+        return predicates;
     }
 }

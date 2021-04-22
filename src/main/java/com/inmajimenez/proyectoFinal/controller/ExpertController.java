@@ -40,6 +40,7 @@ public class ExpertController {
                                                 @QueryParam("tag") String tag,
                                                 @QueryParam("page") String page, @QueryParam("limit") String limit){
 
+
         ExpertResponseGetAll response = expertService.findAllExperts(new ExpertFilters(name, mode, state,score, tag, page, limit));
 
         if(!response.getExperts().isEmpty()){
@@ -107,13 +108,27 @@ public class ExpertController {
      * @return Response of delete
      */
     @DeleteMapping("/expertos/{id}")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Borra de base de datos un experto según su id")
-    public ResponseEntity<Void> deleteExpert(@ApiParam("Id del experto")
+    public Response deleteExpert(@ApiParam("Id del experto")
                                                @PathVariable Long id) {
+        Response response = null;
 
-        return !expertService.deleteExpertById(id) ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                ResponseEntity.noContent().build();
+        if(id!=null) {
+            if (expertService.deleteExpertById(id)) {
+                response = new Response("El experto se ha borrado correctamente",
+                        new ResponseEntity(HttpStatus.OK).getStatusCode());
+            } else {
+                response = new Response("Error al eliminar al experto",
+                        new ResponseEntity(HttpStatus.NOT_FOUND).getStatusCode());
+            }
+        }else{
+            response = new Response("El id enviado es nulo",
+                    new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
+        }
+
+        return response;
+
     }
-
 
 }

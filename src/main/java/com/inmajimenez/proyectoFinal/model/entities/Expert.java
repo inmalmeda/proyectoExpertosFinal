@@ -1,5 +1,6 @@
 package com.inmajimenez.proyectoFinal.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;

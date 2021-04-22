@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -60,6 +61,8 @@ public class TagServiceImpl implements TagService {
 
         if(tag.getId() == null){
             try{
+                tag.setCreated_at(LocalDate.now());
+                tag.setUpdated_at(LocalDate.now());
                 tagCreated = tagRepository.save(tag);
             }catch(Exception e){
                 log.error("Cannot save the tag: {}, error: {}", tag, e);
@@ -83,6 +86,7 @@ public class TagServiceImpl implements TagService {
 
         if (tag.getId() != null && tagRepository.existsById(tag.getId())) {
             try{
+                tag.setUpdated_at(LocalDate.now());
                 result = tagRepository.save(tag);
             }catch(Exception e){
                 log.error("Cannot save tag: {} , error : {}", tag, e);
@@ -105,7 +109,12 @@ public class TagServiceImpl implements TagService {
 
         if (tagRepository.existsById(id)) {
             try{
-                tagRepository.deleteById(id);
+                if(tagDAO.deleteRelationWithExperts(id)){
+                    tagRepository.deleteById(id);
+                }else{
+                    log.error("Cannot delete relation with expert of tag with id {}", id);
+                    return false;
+                }
             }catch(Exception e){
                 log.error("Cannot delete tag with id {}", id);
                 return false;
@@ -114,8 +123,6 @@ public class TagServiceImpl implements TagService {
             log.error("Doesn´t exist tag with id {}", id);
             return false;
         }
-
         return true;
     }
-
 }

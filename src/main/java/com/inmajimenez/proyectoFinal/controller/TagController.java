@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.ws.rs.QueryParam;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 /**
@@ -73,30 +75,42 @@ public class TagController {
      * @return Tag created
      */
     @PostMapping("/etiquetas")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Guarda en base de datos una etiqueta nueva")
-    public ResponseEntity<Tag> createTag(@ApiParam("Objeto tag nueva")
+    public Response createTag(@ApiParam("Objeto tag nueva")
                                          @RequestBody Tag tag) throws URISyntaxException {
 
-        Tag result = tagService.createTag(tag);
+        Response response = null;
 
-        return  result == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
-                ResponseEntity.created(new URI("/api/etiquetas/" + result.getId())).body(result);
+        if(tagService.createTag(tag) != null){
+            response = new Response("La etiqueta se ha creado correctamente",
+                    new ResponseEntity(HttpStatus.OK).getStatusCode());
+        }else{
+            response = new Response("Error al crear la etiqueta",
+                    new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
+        }
+        return response;
     }
 
     /**
      * It updates a tag
      * @param tag Tag to update
-     * @return Updated tag
+     * @return Response of update
      */
-    @PutMapping("/etiquetas") //PONER ID?????
+    @PutMapping("/etiquetas")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Actualiza en base de datos una etiqueta")
-    public ResponseEntity<Tag> updateTag(@ApiParam("Etiqueta con datos actualizados")
+    public Response updateTag(@ApiParam("Etiqueta con datos actualizados")
                                              @RequestBody Tag tag) {
-
-        Tag result = tagService.updateTag(tag);
-
-        return result == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
-                ResponseEntity.ok().body(result);
+        Response response = null;
+        if(tagService.updateTag(tag)!=null){
+            response = new Response("La etiqueta se ha actualizado correctamente",
+                    new ResponseEntity(HttpStatus.OK).getStatusCode());
+        }else{
+            response = new Response("Error al actualizar la etiqueta",
+                    new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
+        }
+        return response;
     }
 
     /**
@@ -105,11 +119,28 @@ public class TagController {
      * @return Response of delete
      */
     @DeleteMapping("/etiquetas/{id}")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Borra de base de datos una etiqueta según su id")
-    public ResponseEntity<Void> deleteTag(@ApiParam("Id de la etiqueta")
+    public Response deleteTag(@ApiParam("Id de la etiqueta")
                                                @PathVariable Long id) {
 
-        return !tagService.deleteTagById(id) ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                ResponseEntity.noContent().build();
+        Response response = null;
+
+        if(id!=null){
+
+            if(tagService.deleteTagById(id)){
+                response = new Response("La etiqueta se ha borrado correctamente",
+                                                    new ResponseEntity(HttpStatus.OK).getStatusCode());
+            }else{
+                response = new Response("Error al eliminar la etiqueta",
+                                                    new ResponseEntity(HttpStatus.NOT_FOUND).getStatusCode());
+            }
+
+        }else{
+            response = new Response("El id enviado es nulo",
+                                                    new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
+        }
+
+        return response;
     }
 }

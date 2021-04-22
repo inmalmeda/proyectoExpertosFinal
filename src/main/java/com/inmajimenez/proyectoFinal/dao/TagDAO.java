@@ -4,6 +4,7 @@ import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
 import com.inmajimenez.proyectoFinal.model.TagFilters;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -23,5 +24,12 @@ public interface TagDAO {
      * @return A tag
      */
     Tag findOneTag(Long id);
+
+    /**
+     * It deletes the relation with expert in tags in table expert_tag
+     * @param id of tag
+     * @return true or false
+     */
+    Boolean deleteRelationWithExperts(Long id);
 
 }
