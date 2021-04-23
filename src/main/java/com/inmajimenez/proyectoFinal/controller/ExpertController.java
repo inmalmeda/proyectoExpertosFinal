@@ -2,6 +2,7 @@ package com.inmajimenez.proyectoFinal.controller;
 
 import com.inmajimenez.proyectoFinal.model.ExpertFilters;
 import com.inmajimenez.proyectoFinal.model.ExpertResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.ExpertResponseGetOne;
 import com.inmajimenez.proyectoFinal.model.Response;
 import com.inmajimenez.proyectoFinal.model.entities.Expert;
 import com.inmajimenez.proyectoFinal.service.ExpertService;
@@ -57,17 +58,26 @@ public class ExpertController {
     /**
      * It returns an expert by id
      * @param id Long id of expert
-     * @return An expert from database
+     * @return Response with an expert from database
      */
     @GetMapping("/expertos/{id}")
     @ApiOperation("Encuentra un experto por su id")
-    public ResponseEntity<Expert> findOne(@ApiParam("Clave primaria del experto")
+    public ExpertResponseGetOne findOne(@ApiParam("Clave primaria del experto")
                                         @PathVariable Long id) {
 
-        Expert result = expertService.findOneExpertById(id);
+        ExpertResponseGetOne response = new ExpertResponseGetOne();
 
-        return result == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                ResponseEntity.ok().body(result);
+        response.setExpert(expertService.findOneExpertById(id));
+
+        if(response.getExpert() != null){
+            response.setResponse(new Response("Experto encontrado con id: " + id,
+                    new ResponseEntity(HttpStatus.OK).getStatusCode()));
+        }else{
+            response.setResponse(new Response("No hubo resultados en la búsqueda",
+                    new ResponseEntity(HttpStatus.NOT_FOUND).getStatusCode()));
+        }
+
+        return response;
     }
 
     /**
@@ -76,30 +86,46 @@ public class ExpertController {
      * @return Expert created
      */
     @PostMapping("/expertos")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Guarda en base de datos un experto nuevo")
-    public ResponseEntity<Expert> createExpert(@ApiParam("Objeto experto nuevo")
+    public Response createExpert(@ApiParam("Objeto experto nuevo")
                                            @RequestBody Expert expert) throws URISyntaxException {
 
-        Expert result = expertService.createExpert(expert);
+        Response response;
 
-        return  result == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
-                ResponseEntity.created(new URI("/api/expertos/" + result.getId())).body(result);
+        if(expertService.createExpert(expert) != null){
+            response = new Response("El experto se ha creado correctamente",
+                    new ResponseEntity(HttpStatus.OK).getStatusCode());
+        }else{
+            response = new Response("Error al crear el experto",
+                    new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
+        }
+
+        return response;
     }
 
     /**
      * It updates an expert
      * @param expert Expert to update
-     * @return Updated expert
+     * @return Response of update expert
      */
-    @PutMapping("/expertos") //IDDDDDDDD????
+    @PutMapping("/expertos")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Actualiza en base de datos un experto existente")
-    public ResponseEntity<Expert> updateExpert(@ApiParam("Información del experto")
+    public Response updateExpert(@ApiParam("Información del experto")
                                            @RequestBody Expert expert) {
 
-        Expert result = expertService.updateExpert(expert);
+        Response response;
 
-        return result == null ? new ResponseEntity<>(HttpStatus.BAD_REQUEST) :
-                ResponseEntity.ok().body(result);
+        if(expertService.updateExpert(expert) != null){
+            response = new Response("El experto se ha actualizado correctamente",
+                    new ResponseEntity(HttpStatus.OK).getStatusCode());
+        }else{
+            response = new Response("Error al actualizar el experto",
+                    new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
+        }
+
+        return response;
     }
 
     /**
@@ -112,7 +138,7 @@ public class ExpertController {
     @ApiOperation("Borra de base de datos un experto según su id")
     public Response deleteExpert(@ApiParam("Id del experto")
                                                @PathVariable Long id) {
-        Response response = null;
+        Response response;
 
         if(id!=null) {
             if (expertService.deleteExpertById(id)) {

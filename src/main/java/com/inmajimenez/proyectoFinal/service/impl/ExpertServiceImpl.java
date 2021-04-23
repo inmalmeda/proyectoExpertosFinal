@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class ExpertServiceImpl implements ExpertService {
 
@@ -58,6 +60,8 @@ public class ExpertServiceImpl implements ExpertService {
 
         if (expert.getId() == null) {
             try{
+                expert.setCreated_at(LocalDate.now());
+                expert.setUpdated_at(LocalDate.now());
                 expertCreated = expertRepository.save(expert);
             }catch(Exception e) {
                 log.error("Cannot save the expert: {} , error : {}", expert, e);
@@ -81,6 +85,7 @@ public class ExpertServiceImpl implements ExpertService {
 
         if (expertRepository.existsById(expert.getId())) {
             try{
+                expert.setUpdated_at(LocalDate.now());
                 result = expertRepository.save(expert);
             }catch(Exception e){
                 log.error("Cannot save expert: {} , error : {}", expert, e);
