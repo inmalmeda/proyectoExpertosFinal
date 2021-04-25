@@ -83,6 +83,7 @@ public class TagController {
      * @return Tag created
      */
     @PostMapping("/etiquetas")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Guarda en base de datos una etiqueta nueva")
     public Response createTag(@ApiParam("Objeto tag nueva")
                                          @RequestBody Tag tag) throws URISyntaxException {
@@ -105,6 +106,7 @@ public class TagController {
      * @return Response of update
      */
     @PutMapping("/etiquetas")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Actualiza en base de datos una etiqueta")
     public Response updateTag(@ApiParam("Etiqueta con datos actualizados")
                                              @RequestBody Tag tag) {
@@ -127,6 +129,7 @@ public class TagController {
      * @return Response of delete
      */
     @DeleteMapping("/etiquetas/{id}")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Borra de base de datos una etiqueta según su id")
     public Response deleteTag(@ApiParam("Id de la etiqueta")
                                                @PathVariable Long id) {

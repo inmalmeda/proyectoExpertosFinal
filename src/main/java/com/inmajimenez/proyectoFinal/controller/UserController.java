@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
-
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Comprueba el usuario en bbdd")
     public ResponseLoggin checkUser(@ApiParam("Objeto del usuario")
                               @RequestBody User user) throws URISyntaxException {
@@ -46,4 +46,22 @@ public class UserController {
         return response;
     }
 
+    @PostMapping("/users")
+    @CrossOrigin (origins = "http://localhost:4200")
+    @ApiOperation("Comprueba el usuario en bbdd")
+    public Response createUser(@ApiParam("Objeto del usuario")
+                                    @RequestBody User user) throws URISyntaxException {
+
+        Response response;
+
+        if(userService.createUser(user) != null){
+            response = new Response("El usuario se ha creado correctamente",
+                    new ResponseEntity(HttpStatus.OK).getStatusCode());
+        }else{
+            response = new Response("Error al crear el usuario",
+                    new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
+        }
+
+        return response;
+    }
 }

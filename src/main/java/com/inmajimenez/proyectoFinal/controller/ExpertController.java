@@ -86,7 +86,7 @@ public class ExpertController {
      * @return Expert created
      */
     @PostMapping("/expertos")
-  //  @CrossOrigin (origins = "http://localhost:4200")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Guarda en base de datos un experto nuevo")
     public Response createExpert(@ApiParam("Objeto experto nuevo")
                                            @RequestBody Expert expert) throws URISyntaxException {
@@ -110,7 +110,7 @@ public class ExpertController {
      * @return Response of update expert
      */
     @PutMapping("/expertos")
-  //  @CrossOrigin (origins = "http://localhost:4200")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Actualiza en base de datos un experto existente")
     public Response updateExpert(@ApiParam("Información del experto")
                                            @RequestBody Expert expert) {
@@ -134,7 +134,7 @@ public class ExpertController {
      * @return Response of delete
      */
     @DeleteMapping("/expertos/{id}")
-  //  @CrossOrigin (origins = "http://localhost:4200")
+    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Borra de base de datos un experto según su id")
     public Response deleteExpert(@ApiParam("Id del experto")
                                                @PathVariable Long id) {
