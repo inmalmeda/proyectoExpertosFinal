@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://ijimenezfinal.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "https://ijimenezfinal-hnox0rpln-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class UserController {
 
     UserService userService;
