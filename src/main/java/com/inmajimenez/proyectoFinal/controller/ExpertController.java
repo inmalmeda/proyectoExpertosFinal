@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
 @RestController
 @RequestMapping("/api")
 
-@CrossOrigin(origins = "https://finalprojectfront-gqwia52l5-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "https://localhost:4200", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class ExpertController {
 
     private final ExpertService expertService;
