@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
  */
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://finalprojectfrontinma-c2mf3w5vz-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "https://finalprojectfrontinma-bwznjp3lw-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class TagController {
 
     private final TagService tagService;
