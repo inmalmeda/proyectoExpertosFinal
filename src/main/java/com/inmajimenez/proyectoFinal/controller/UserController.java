@@ -31,9 +31,11 @@ public class UserController {
 
         ResponseLoggin response = new ResponseLoggin();
 
-        if(userService.findOneUserLoggin(user)!=null){
-           response.setNameUser(user.getName());
-           response.setEmailUser(user.getName());
+        User userBBDD = userService.findOneUserLoggin(user);
+
+        if(userBBDD !=null){
+           response.setNameUser(userBBDD.getName());
+           response.setEmailUser(userBBDD.getEmail());
            response.setResponse(new Response("El usuario se ha logueado correctamente",
                    new ResponseEntity(HttpStatus.OK).getStatusCode()));
         }else{
