@@ -23,7 +23,6 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    @CrossOrigin (origins = "https://finalprojectfront-gqwia52l5-inmalmeda.vercel.app/")
     @ApiOperation("Comprueba el usuario en bbdd")
     public ResponseLoggin checkUser(@ApiParam("Objeto del usuario")
                               @RequestBody User user) throws URISyntaxException {
@@ -47,7 +46,6 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    @CrossOrigin (origins = "http://localhost:4200")
     @ApiOperation("Comprueba el usuario en bbdd")
     public Response createUser(@ApiParam("Objeto del usuario")
                                     @RequestBody User user) throws URISyntaxException {
