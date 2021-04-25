@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Service
 public class ExpertServiceImpl implements ExpertService {
 
-    private final Logger log = LoggerFactory.getLogger(TagServiceImpl.class);
+    private final Logger log = LoggerFactory.getLogger(ExpertServiceImpl.class);
 
     private final ExpertDAO expertDAO;
     private ExpertRepository expertRepository;
