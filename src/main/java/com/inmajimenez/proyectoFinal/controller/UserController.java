@@ -4,7 +4,6 @@ import com.inmajimenez.proyectoFinal.model.request.LoginRequest;
 import com.inmajimenez.proyectoFinal.model.request.SignupRequest;
 import com.inmajimenez.proyectoFinal.model.response.Response;
 import com.inmajimenez.proyectoFinal.model.response.LoginResponse;
-import com.inmajimenez.proyectoFinal.model.entities.User;
 import com.inmajimenez.proyectoFinal.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,7 +16,7 @@ import java.net.URISyntaxException;
 @RestController
 @RequestMapping("/auth")
 //@CrossOrigin(origins = "http://localhost:4200", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
-@CrossOrigin(origins = "https://ijimenezfinal.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "http://ijimenezfinal.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class UserController {
 
     UserService userService;
