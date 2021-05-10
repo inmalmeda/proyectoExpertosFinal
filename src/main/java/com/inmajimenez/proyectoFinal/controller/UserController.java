@@ -1,7 +1,9 @@
 package com.inmajimenez.proyectoFinal.controller;
 
-import com.inmajimenez.proyectoFinal.model.Response;
-import com.inmajimenez.proyectoFinal.model.ResponseLoggin;
+import com.inmajimenez.proyectoFinal.model.request.LoginRequest;
+import com.inmajimenez.proyectoFinal.model.request.SignupRequest;
+import com.inmajimenez.proyectoFinal.model.response.Response;
+import com.inmajimenez.proyectoFinal.model.response.LoginResponse;
 import com.inmajimenez.proyectoFinal.model.entities.User;
 import com.inmajimenez.proyectoFinal.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -13,8 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URISyntaxException;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin(origins = "https://ijimenezfinal-hnox0rpln-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:4200", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+//@CrossOrigin(origins = "https://ijimenezfinal-hnox0rpln-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class UserController {
 
     UserService userService;
@@ -23,44 +26,37 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/login")
     @ApiOperation("Comprueba el usuario en bbdd")
-    public ResponseLoggin checkUser(@ApiParam("Objeto del usuario")
-                              @RequestBody User user) throws URISyntaxException {
+    public ResponseEntity<LoginResponse> checkUser(@ApiParam("Objeto del usuario")
+                              @RequestBody LoginRequest login) throws URISyntaxException {
 
+        LoginResponse response = userService.checkLoginUser(login);
 
-        ResponseLoggin response = new ResponseLoggin();
-
-        User userBBDD = userService.findOneUserLoggin(user);
-
-        if(userBBDD !=null){
-           response.setNameUser(userBBDD.getName());
-           response.setEmailUser(userBBDD.getEmail());
-           response.setResponse(new Response("El usuario se ha logueado correctamente",
-                   new ResponseEntity(HttpStatus.OK).getStatusCode()));
-        }else{
-            response.setResponse(new Response("Error al loguear el usuario",
-                    new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode()));
-        }
-
-        return response;
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/users")
+    @PostMapping("/register")
     @ApiOperation("Comprueba el usuario en bbdd")
     public Response createUser(@ApiParam("Objeto del usuario")
-                                    @RequestBody User user) throws URISyntaxException {
+                                    @RequestBody SignupRequest signUpuser) throws URISyntaxException {
 
         Response response;
 
-        if(userService.createUser(user) != null){
-            response = new Response("El usuario se ha creado correctamente",
-                    new ResponseEntity(HttpStatus.OK).getStatusCode());
+        if(!userService.checkEmailUser(signUpuser.getEmail())){
+
+            if(userService.createUser(signUpuser)){
+                response = new Response("El usuario se ha creado correctamente",
+                        new ResponseEntity(HttpStatus.OK).getStatusCode());
+            }else{
+                response = new Response("Error al crear el usuario",
+                        new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
+            }
+
         }else{
-            response = new Response("Error al crear el usuario",
+            response = new Response("Error: El email ya está registrado",
                     new ResponseEntity(HttpStatus.BAD_REQUEST).getStatusCode());
         }
-
         return response;
     }
 }

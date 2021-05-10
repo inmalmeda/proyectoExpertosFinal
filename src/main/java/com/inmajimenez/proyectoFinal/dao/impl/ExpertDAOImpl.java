@@ -1,8 +1,8 @@
 package com.inmajimenez.proyectoFinal.dao.impl;
 
 import com.inmajimenez.proyectoFinal.dao.ExpertDAO;
-import com.inmajimenez.proyectoFinal.model.ExpertFilters;
-import com.inmajimenez.proyectoFinal.model.ExpertResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.request.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.response.ExpertResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Expert;
 import io.swagger.models.Tag;
 import org.springframework.stereotype.Repository;

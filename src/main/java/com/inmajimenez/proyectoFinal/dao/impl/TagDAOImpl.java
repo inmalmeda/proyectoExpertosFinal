@@ -1,9 +1,9 @@
 package com.inmajimenez.proyectoFinal.dao.impl;
 
 import com.inmajimenez.proyectoFinal.dao.TagDAO;
-import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.response.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
-import com.inmajimenez.proyectoFinal.model.TagFilters;
+import com.inmajimenez.proyectoFinal.model.request.TagFilters;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,11 +12,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.EntityType;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Repository
 public class TagDAOImpl implements TagDAO {

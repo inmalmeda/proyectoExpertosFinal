@@ -1,9 +1,9 @@
 package com.inmajimenez.proyectoFinal.service.impl;
 
 import com.inmajimenez.proyectoFinal.dao.TagDAO;
-import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.response.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
-import com.inmajimenez.proyectoFinal.model.TagFilters;
+import com.inmajimenez.proyectoFinal.model.request.TagFilters;
 import com.inmajimenez.proyectoFinal.repository.TagRepository;
 import com.inmajimenez.proyectoFinal.service.TagService;
 import org.slf4j.Logger;
@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class TagServiceImpl implements TagService {

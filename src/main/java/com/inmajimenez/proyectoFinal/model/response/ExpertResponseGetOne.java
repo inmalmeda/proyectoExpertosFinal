@@ -1,8 +1,6 @@
-package com.inmajimenez.proyectoFinal.model;
+package com.inmajimenez.proyectoFinal.model.response;
 
 import com.inmajimenez.proyectoFinal.model.entities.Expert;
-
-import java.util.List;
 
 public class ExpertResponseGetOne {
 

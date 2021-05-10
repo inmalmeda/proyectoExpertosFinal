@@ -1,11 +1,8 @@
 package com.inmajimenez.proyectoFinal.dao;
 
-import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.response.TagResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
-import com.inmajimenez.proyectoFinal.model.TagFilters;
-
-import javax.transaction.Transactional;
-import java.util.List;
+import com.inmajimenez.proyectoFinal.model.request.TagFilters;
 
 /**
  * Class DAO for tags

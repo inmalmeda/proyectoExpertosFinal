@@ -1,4 +1,4 @@
-package com.inmajimenez.proyectoFinal.model;
+package com.inmajimenez.proyectoFinal.model.response;
 
 import org.springframework.http.HttpStatus;
 

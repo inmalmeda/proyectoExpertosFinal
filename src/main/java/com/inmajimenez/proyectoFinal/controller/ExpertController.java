@@ -1,9 +1,9 @@
 package com.inmajimenez.proyectoFinal.controller;
 
-import com.inmajimenez.proyectoFinal.model.ExpertFilters;
-import com.inmajimenez.proyectoFinal.model.ExpertResponseGetAll;
-import com.inmajimenez.proyectoFinal.model.ExpertResponseGetOne;
-import com.inmajimenez.proyectoFinal.model.Response;
+import com.inmajimenez.proyectoFinal.model.request.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.response.ExpertResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.response.ExpertResponseGetOne;
+import com.inmajimenez.proyectoFinal.model.response.Response;
 import com.inmajimenez.proyectoFinal.model.entities.Expert;
 import com.inmajimenez.proyectoFinal.service.ExpertService;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +20,8 @@ import java.net.URISyntaxException;
  */
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://ijimenezfinal-hnox0rpln-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "http://localhost:4200", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+//@CrossOrigin(origins = "https://ijimenezfinal-hnox0rpln-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class ExpertController {
 
     private final ExpertService expertService;

@@ -1,23 +1,23 @@
-package com.inmajimenez.proyectoFinal.model;
+package com.inmajimenez.proyectoFinal.model.response;
 
-import com.inmajimenez.proyectoFinal.model.entities.User;
+import com.inmajimenez.proyectoFinal.model.response.Response;
 
 
-public class ResponseLoggin {
+public class LoginResponse {
 
     private String nameUser;
 
     private String emailUser;
 
-    private Response response;
+    private String token;
 
-    public ResponseLoggin() {
+    public LoginResponse() {
     }
 
-    public ResponseLoggin(String nameUser, String emailUser, String token, Response response) {
+    public LoginResponse(String nameUser, String emailUser, String token) {
         this.nameUser = nameUser;
         this.emailUser = emailUser;
-        this.response = response;
+        this.token = token;
     }
 
     public String getNameUser() {
@@ -36,11 +36,12 @@ public class ResponseLoggin {
         this.emailUser = emailUser;
     }
 
-    public Response getResponse() {
-        return response;
+    public String getToken() {
+        return token;
     }
 
-    public void setResponse(Response response) {
-        this.response = response;
+    public void setToken(String token) {
+        this.token = token;
     }
+
 }

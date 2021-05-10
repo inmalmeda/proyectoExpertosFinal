@@ -1,8 +1,8 @@
 package com.inmajimenez.proyectoFinal.service.impl;
 
 import com.inmajimenez.proyectoFinal.dao.ExpertDAO;
-import com.inmajimenez.proyectoFinal.model.ExpertFilters;
-import com.inmajimenez.proyectoFinal.model.ExpertResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.request.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.response.ExpertResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Expert;
 import com.inmajimenez.proyectoFinal.repository.ExpertRepository;
 import com.inmajimenez.proyectoFinal.service.ExpertService;

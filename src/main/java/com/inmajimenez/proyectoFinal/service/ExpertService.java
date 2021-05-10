@@ -1,10 +1,8 @@
 package com.inmajimenez.proyectoFinal.service;
 
-import com.inmajimenez.proyectoFinal.model.ExpertFilters;
-import com.inmajimenez.proyectoFinal.model.ExpertResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.request.ExpertFilters;
+import com.inmajimenez.proyectoFinal.model.response.ExpertResponseGetAll;
 import com.inmajimenez.proyectoFinal.model.entities.Expert;
-
-import java.util.List;
 
 /**
  * Class service for experts

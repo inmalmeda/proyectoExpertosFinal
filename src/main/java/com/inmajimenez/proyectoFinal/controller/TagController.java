@@ -1,10 +1,10 @@
 package com.inmajimenez.proyectoFinal.controller;
 
-import com.inmajimenez.proyectoFinal.model.Response;
-import com.inmajimenez.proyectoFinal.model.TagResponseGetAll;
-import com.inmajimenez.proyectoFinal.model.TagResponseGetOne;
+import com.inmajimenez.proyectoFinal.model.response.Response;
+import com.inmajimenez.proyectoFinal.model.response.TagResponseGetAll;
+import com.inmajimenez.proyectoFinal.model.response.TagResponseGetOne;
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
-import com.inmajimenez.proyectoFinal.model.TagFilters;
+import com.inmajimenez.proyectoFinal.model.request.TagFilters;
 import com.inmajimenez.proyectoFinal.service.TagService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.QueryParam;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 
@@ -22,7 +21,8 @@ import java.net.URISyntaxException;
  */
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "https://ijimenezfinal-hnox0rpln-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "http://localhost:4200", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+//@CrossOrigin(origins = "https://ijimenezfinal-hnox0rpln-inmalmeda.vercel.app", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class TagController {
 
     private final TagService tagService;

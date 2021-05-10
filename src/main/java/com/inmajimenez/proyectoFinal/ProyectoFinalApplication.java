@@ -3,6 +3,9 @@ package com.inmajimenez.proyectoFinal;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Proyecto desarrollado por: Inmaculada Jiménez Almeda
+ */
 @SpringBootApplication
 public class ProyectoFinalApplication {
 

@@ -1,6 +1,7 @@
-package com.inmajimenez.proyectoFinal.model;
+package com.inmajimenez.proyectoFinal.model.response;
 
 import com.inmajimenez.proyectoFinal.model.entities.Tag;
+import com.inmajimenez.proyectoFinal.model.response.Response;
 
 public class TagResponseGetOne {
 
