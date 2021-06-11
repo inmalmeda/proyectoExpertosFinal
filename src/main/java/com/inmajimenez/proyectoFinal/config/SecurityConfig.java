@@ -21,44 +21,38 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
+    private UserDetailsServiceImpl userDetailServicesImpl;
 
     @Autowired
-    private JwtAuthEntryPoint unauthorizedHandler;
+    private JwtRequestFilter jwtFilterRequest;
 
-    @Bean
-    public JwtRequestFilter authenticationJwtTokenFilter() {
-        return new JwtRequestFilter();
+
+    // Generamos un metodo con generate Override methods y seleccionamos [ configuration auth... ]
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailServicesImpl);
+
+    }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable().authorizeRequests().antMatchers("/**/authenticate").permitAll()
+        http.csrf().disable().authorizeRequests().antMatchers("/auth/**").permitAll().and()
+                .authorizeRequests().antMatchers("/api/**").permitAll()
+//                .anyRequest().authenticated()
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().cors();
+
+        http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-
     @Bean
-    @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        http.csrf().disable()
-                .authorizeRequests().antMatchers("/auth/**").permitAll().and()
-                .authorizeRequests().antMatchers("/api/**").permitAll().and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().cors();
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
 
 }
 
